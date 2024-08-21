@@ -41,8 +41,8 @@ const Navbar = () => {
       <div className=" lg:flex hidden gap-4">
         <Button
           type="button"
-          title="Get Started"
-          variant="bg-gradient-to-r from-cyan-500 to-blue-500"
+          title="Login"
+           variant="bg-[#111]"
           icon="/user.svg"
         />
           {/* <Button
@@ -100,7 +100,7 @@ const Navbar = () => {
               <Button
                 type="button"
                 title="Login"
-                variant="bg-gradient-to-r from-cyan-500 to-blue-500"
+                variant="bg-[#111]"
                 icon="/user.svg"
               />
             </div>

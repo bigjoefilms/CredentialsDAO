@@ -12,27 +12,28 @@ const Footer = () => {
         Credentials<span className="text-[#005cff]">DAO</span>
       </Link>
           <div className='flex flex-wrap gap-10 sm:justify-between md:flex-1'>
-            {FOOTER_LINKS.map((columns) => (
-              <FooterColumn title={columns.title}>
-                <ul className="text-[14px] font-[400] flex flex-col gap-4 text-[#494848] ">
-                  {columns.links.map((link) => (
-                    <Link href="/" key={link}>
-                      {link}
-                    </Link>
-                  ))}
-                </ul>
-              </FooterColumn>
+              {FOOTER_LINKS.map((columns, index) => (
+                <FooterColumn key={index} title={columns.title}>
+                  <ul className="text-[14px] font-[400] flex flex-col gap-4 text-[#494848]">
+                    {columns.links.map((link, linkIndex) => (
+                      <Link href="/" key={linkIndex}>
+                        {link}
+                      </Link>
+                    ))}
+                  </ul>
+                </FooterColumn>
             ))}
 
-            <div className="flex flex-col gap-5 ">
+           
+<div className="flex flex-col gap-5">
               <FooterColumn title={FOOTER_CONTACT_INFO.title}>
-                {FOOTER_CONTACT_INFO.links.map((link) => (
+                {FOOTER_CONTACT_INFO.links.map((link, index) => (
                   <Link
                     href="/"
-                    key={link.label}
-                    className="flex gap-4 md:flex-col lg:flex-row  text-[#494848] text-[14px] font-[400]"
+                    key={index}
+                    className="flex gap-4 md:flex-col lg:flex-row text-[#494848] text-[14px] font-[400]"
                   >
-                    <p className="whitespace-nowrap ">
+                    <p className="whitespace-nowrap">
                       {link.label}:
                     </p>
                     <p className="medium-14 whitespace-nowrap text-blue-70">
@@ -46,8 +47,8 @@ const Footer = () => {
             <div className="flex flex-col gap-5">
               <FooterColumn title={SOCIALS.title}>
                 <ul className="text-[14px] font-[400] flex gap-4 text-[#494848]">
-                  {SOCIALS.links.map((link) => (
-                    <Link href="/" key={link}>
+                  {SOCIALS.links.map((link, index) => (
+                    <Link href="/" key={index}>
                       <Image src={link} alt="logo" width={24} height={24} />
                     </Link>
                   ))}
@@ -58,12 +59,11 @@ const Footer = () => {
         </div>
 
         <div className="border bg-[#7a787811]" />
-        <p className="text-[14px] font-[400] w-full text-center  text-[#494848]">2024 CredentialsDAO | All rights reserved</p>
+        <p className="text-[14px] font-[400] w-full text-center text-[#494848]">2024 CredentialsDAO | All rights reserved</p>
       </div>
     </footer>
-  )
-}
-
+  );
+};
 type FooterColumnProps = {
   title: string;
   children: React.ReactNode;
