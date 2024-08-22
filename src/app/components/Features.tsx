@@ -16,12 +16,12 @@ const Features = () => {
           />
         </div> */}
 
-        <div className="z-20 flex w-full flex-col lg:w-[80%]">
+        <div className="z-20 flex w-full flex-col lg:w-[100%]">
           <div className='relative flex justify-center items-center flex-col'>
             <h3 className='font-semibold text-[16px] text-[#005cff]'>With our Product you can</h3>
             <h2 className="font-semibold lg:font-bold text-[40px]">Create, Manage and Verify</h2>
           </div>
-          <ul className="mt-10 grid gap-10 md:grid-cols-2  ">
+          <ul className="mt-10 grid gap-20 lg:grid-col-4 md:grid-cols-2  ">
             {FEATURES.map((feature) => (
               <FeatureItem 
                 key={feature.title}
@@ -45,7 +45,7 @@ type FeatureItem = {
 
 const FeatureItem = ({ title, icon, description }: FeatureItem) => {
   return (
-    <li className="flex w-full flex-1 flex-col items-start">
+    <li className="flex w-full flex-1 flex-col items-start lg:items-center justify-center">
       <div className="rounded-full p-6 h-[100px] w-auto ">
         <Image src={icon} alt="map" width={78} height={78} />
       </div>

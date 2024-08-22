@@ -16,14 +16,14 @@ const GetApp = () => {
             <Button 
               type="button"
               title="Learn more"
-              icon="/apple.svg"
+              // icon="/apple.svg"
               variant="bg-[#363636]"
               
             />
             <Button 
               type="button"
               title="Get Started"
-              icon="/android.svg"
+              // icon="/android.svg"
               variant="bg-gradient-to-r from-cyan-500 to-blue-500"
               
             />

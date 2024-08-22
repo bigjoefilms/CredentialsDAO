@@ -18,8 +18,8 @@ const Navbar = () => {
       {/* <Image
         src="/dao.png"
         alt="logo"
-        width={202}
-        height={202}
+        width={402}
+        height={402}
        
       /> */}
 
@@ -42,7 +42,7 @@ const Navbar = () => {
         <Button
           type="button"
           title="Login"
-           variant="bg-[#111]"
+           variant="bg-[#111] px-[40px]"
           icon="/user.svg"
         />
           {/* <Button
@@ -97,12 +97,12 @@ const Navbar = () => {
             </ul>
 
             <div className=" mt-[25px]">
-              <Button
+              {/* <Button
                 type="button"
                 title="Login"
                 variant="bg-[#111]"
                 icon="/user.svg"
-              />
+              /> */}
             </div>
         </div>
         <div className="flex-1" onClick={toggleSidebar} />

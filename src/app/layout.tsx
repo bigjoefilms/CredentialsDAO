@@ -3,8 +3,15 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import OCConnectWrapper from "./components/OCConnectWrapper";
 
 const inter = Inter({ subsets: ["latin"] });
+
+const opts = {
+  redirectUri: 'http://localhost:3000/redirect', // Adjust this URL
+};
+
+
 
 export const metadata: Metadata = {
   title: "CredentialsDAO",
@@ -18,11 +25,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+
+      <OCConnectWrapper opts={opts} sandboxMode={true}>
+
+      
       <body className={inter.className}>
-        <Navbar />
+        
         <main className="relative overflow-hidden">{children}</main>
-        <Footer />
+        
       </body>
+      </OCConnectWrapper>
     </html>
   );
 }
