@@ -15,6 +15,10 @@ export const FOOTER_LINKS = [
         'Contact Us',
       ],
     },
+    {
+      title: 'Our Community',
+      links: ['Climbing xixixi', 'Hiking hilink', 'Hilink kinthill'],
+    },
    
   ];
   

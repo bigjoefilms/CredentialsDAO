@@ -12,49 +12,48 @@ const Footer = () => {
        
         Credentials<span className="bg-gradient-to-r from-cyan-500 to-blue-500 py-1 px-2 rounded-lg text-[#fff]" > DAO</span>
       </Link>
-      <div className='flex flex-wrap gap-10 sm:justify-between md:flex-1'>
-  {FOOTER_LINKS.map((columns, index) => (
-    <FooterColumn title={columns.title} key={index}>
-      <ul className="text-[14px] font-[400] flex flex-col gap-4 text-[#494848] ">
-        {columns.links.map((link, linkIndex) => (
-          <Link href="/" key={linkIndex}>
-            {link}
-          </Link>
-        ))}
-      </ul>
-    </FooterColumn>
-  ))}
- 
+          <div className='flex flex-wrap gap-10 sm:justify-between md:flex-1'>
+            {FOOTER_LINKS.map((columns) => (
+              <FooterColumn title={columns.title}>
+                <ul className="text-[14px] font-[400] flex flex-col gap-4 text-[#494848] ">
+                  {columns.links.map((link) => (
+                    <Link href="/" key={link}>
+                      {link}
+                    </Link>
+                  ))}
+                </ul>
+              </FooterColumn>
+            ))}
 
             <div className="flex flex-col gap-5 ">
-            <FooterColumn title={FOOTER_CONTACT_INFO.title}>
-  {FOOTER_CONTACT_INFO.links.map((link, index) => (
-    <Link
-      href="/"
-      key={`${link.label}-${index}`}
-      className="flex gap-4 md:flex-col lg:flex-row text-[#494848] text-[14px] font-[400]"
-    >
-      <p className="whitespace-nowrap">
-        {link.label}:
-      </p>
-      <p className="medium-14 whitespace-nowrap text-blue-70">
-        {link.value}
-      </p>
-    </Link>
-  ))}
-</FooterColumn>
+              <FooterColumn title={FOOTER_CONTACT_INFO.title}>
+                {FOOTER_CONTACT_INFO.links.map((link) => (
+                  <Link
+                    href="/"
+                    key={link.label}
+                    className="flex gap-4 md:flex-col lg:flex-row  text-[#494848] text-[14px] font-[400]"
+                  >
+                    <p className="whitespace-nowrap ">
+                      {link.label}:
+                    </p>
+                    <p className="medium-14 whitespace-nowrap text-blue-70">
+                      {link.value}
+                    </p>
+                  </Link>
+                ))}
+              </FooterColumn>
             </div>
 
             <div className="flex flex-col gap-5">
-            <FooterColumn title={SOCIALS.title}>
-  <ul className="text-[14px] font-[400] flex gap-4 text-[#494848]">
-    {SOCIALS.links.map((link, index) => (
-      <Link href="/" key={index}>
-        <Image src={link} alt="logo" width={24} height={24} />
-      </Link>
-    ))}
-  </ul>
-</FooterColumn>
+              <FooterColumn title={SOCIALS.title}>
+                <ul className="text-[14px] font-[400] flex gap-4 text-[#494848]">
+                  {SOCIALS.links.map((link) => (
+                    <Link href="/" key={link}>
+                      <Image src={link} alt="logo" width={24} height={24} />
+                    </Link>
+                  ))}
+                </ul>
+              </FooterColumn>
             </div>
           </div>
         </div>
