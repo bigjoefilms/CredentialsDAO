@@ -40,10 +40,10 @@ const Hero = ({ isOpen }: HeroProps) => {
   return (
     <section className=" relative mx-auto max-w-[1440px] px-6 lg:px-20 3xl:px-0 flex flex-col gap-[20px] py-10 pb-32 md:gap-28 lg:py-20 xl:flex-row lg:h-[700px]">
       <div className="relative z-20 flex-1 flex-col xl:w-1/2  justify-center flex">
-        <h1 className="text-[42px] font-[700] leading-[120%] lg:text-[88px] lg:font-[700] lg:leading-[100%] lg:text-left">
+        <h1 className="text-[46px] font-[700] leading-[180%] lg:text-[88px] lg:font-[700] lg:leading-[100%] lg:text-left">
           {" "}
           CredentialsDAO <br />
-          <span className=" py-[px] text-[#fff] rounded-lg px-[10px] bg-gradient-to-r from-cyan-500 to-blue-500 text-[60px]">
+          <span className=" py-[px] text-[#fff] rounded-lg px-[10px] bg-gradient-to-r from-cyan-500 to-blue-500 text-[40px] lg:text-[60px]">
             {" "}
             on EDUCHAIN
           </span>

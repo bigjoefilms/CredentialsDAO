@@ -19,7 +19,7 @@ const Features = () => {
         <div className="z-20 flex w-full flex-col lg:w-[100%]">
           <div className='relative flex justify-center items-center flex-col'>
             <h3 className='font-semibold text-[16px] text-[#005cff]'>With our Product you can</h3>
-            <h2 className="font-semibold lg:font-bold text-[40px]">Create, Manage and Verify</h2>
+            <h2 className="font-semibold lg:font-bold text-[35px] lg:text-[40px]">Create, Manage and Verify</h2>
           </div>
           <ul className="mt-10 grid gap-20 lg:grid-col-4 md:grid-cols-2  ">
             {FEATURES.map((feature) => (
