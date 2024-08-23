@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -6,7 +5,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import OCConnectWrapper from "./components/OCConnectWrapper";
 import { AuthProvider } from "./context/AuthContext";
-import { useEffect, useState } from "react";
+import { useRedirectUri } from "../hooks/useRedirectUri"; // Import the custom hook
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,13 +19,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // State to hold the redirectUri
-  const [redirectUri, setRedirectUri] = useState<string | undefined>();
-
-  useEffect(() => {
-    // Set the redirectUri based on the current location
-    setRedirectUri(`${window.location.origin}/redirect`);
-  }, []);
+  // Use the custom hook to get the redirectUri
+  const redirectUri = useRedirectUri();
 
   return (
     <html lang="en">
