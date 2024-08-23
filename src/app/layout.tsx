@@ -9,7 +9,7 @@ import { AuthProvider } from "./context/AuthContext";
 const inter = Inter({ subsets: ["latin"] });
 
 const opts = {
-  redirectUri: 'https://credentials-a5pecp05h-bigjoefilms-projects.vercel.app//redirect', // Adjust this URL
+  redirectUri: 'https://credentials-dao.vercel.app/redirect', // Adjust this URL
 };
 
 
