@@ -13,6 +13,11 @@ const Sidebar: React.FC = () => {
    </Link>
       <nav className=''>
         <ul className=' flex flex-col '>
+        <li className="mb-4">
+            <Link href="/dashboard/drive" className="block p-2 bg-[#111] hover:bg-[#fff] hover:text-[#111] rounded transition-colors duration-200 text-[#fff]">
+              Create New
+            </Link>
+          </li>
           <li className="mb-4">
             <Link href="/dashboard/drive" className="block p-2 bg-[#111] hover:bg-[#fff] hover:text-[#111] rounded transition-colors duration-200 text-[#fff]">
               Drive

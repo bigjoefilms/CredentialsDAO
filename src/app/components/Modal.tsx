@@ -2,7 +2,7 @@
 import React,{useEffect} from 'react';
 import { useRouter } from 'next/navigation';
 import LoginButton from './LoginButton';
-import { useOCAuth,  } from '@opencampus/ocid-connect-js';
+import { useOCAuth  } from '@opencampus/ocid-connect-js';
 
 interface AuthStateDisplayProps {
   authState: any;
