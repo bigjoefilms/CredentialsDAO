@@ -37,7 +37,7 @@ const StepTwo: React.FC = () => {
 
   return (
    <div className='h-[100vh] justify-center items-center flex '>
-     <form onSubmit={handleSubmit} className="max-w-lg mx-auto bg-white p-8 shadow-md rounded w-[60%]">
+     <form onSubmit={handleSubmit} className="max-w-lg mx-auto bg-white p-8 lg:shadow-md rounded w-[100%] lg:w-[60%]">
       <InputField
         label="Street Address"
         name="streetAddress"

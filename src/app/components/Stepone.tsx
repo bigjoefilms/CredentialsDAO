@@ -28,7 +28,7 @@ const StepOne: React.FC = () => {
 
   return (
     <div className='flex items-center justify-center h-[100vh] w-[100%]'>
-        <form onSubmit={handleNextStep} className="max-w-lg mx-auto bg-white p-8 shadow-md rounded w-[60%] ">
+        <form onSubmit={handleNextStep} className="max-w-lg mx-auto bg-white p-8 lg:shadow-md rounded  w-[100%] lg:w-[60%] ">
       <InputField
         label="Organization Name"
         name="organizationName"

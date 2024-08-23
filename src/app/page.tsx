@@ -28,7 +28,7 @@ export default function Home() {
 
   return (
     <>
-    <Navbar />
+    <Navbar isOpen={handleOpenModal} />
       <Hero
        
         

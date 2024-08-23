@@ -6,7 +6,11 @@ import { NAV__LINKS } from "../../../constants";
 import Button from "./Button";
 import Image from "next/image";
 
-const Navbar = () => {
+
+interface Navbarprops{
+  isOpen : () => void
+}
+const Navbar = ({isOpen}: Navbarprops) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -39,12 +43,14 @@ const Navbar = () => {
       </ul>
 
       <div className=" lg:flex hidden gap-4">
-        {/* <Button
+        <Button
           type="button"
           title="Login"
            variant="bg-[#111] px-[40px]"
           icon="/user.svg"
-        /> */}
+          onClick={isOpen}
+          
+        />
           {/* <Button
           type="button"
           title="Login"
