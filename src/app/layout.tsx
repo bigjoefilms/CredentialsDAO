@@ -5,9 +5,14 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import OCConnectWrapper from "./components/OCConnectWrapper";
 import { AuthProvider } from "./context/AuthContext";
-import { useRedirectUri } from "../hooks/useRedirectUri"; // Import the custom hook
 
 const inter = Inter({ subsets: ["latin"] });
+
+const opts = {
+  redirectUri: 'https://credentials-a5pecp05h-bigjoefilms-projects.vercel.app//redirect', // Adjust this URL
+};
+
+
 
 export const metadata: Metadata = {
   title: "CredentialsDAO",
@@ -19,20 +24,24 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Use the custom hook to get the redirectUri
-  const redirectUri = useRedirectUri();
-
   return (
     <html lang="en">
-      {redirectUri ? ( // Only render OCConnectWrapper when redirectUri is set
-        <OCConnectWrapper opts={{ redirectUri }} sandboxMode={true}>
-          <AuthProvider>
-            <body className={inter.className}>
-              <main className="relative overflow-hidden">{children}</main>
-            </body>
-          </AuthProvider>
-        </OCConnectWrapper>
-      ) : null}
+      <OCConnectWrapper opts={opts} sandboxMode={true}>
+       <AuthProvider>
+
+      
+
+      
+
+      
+      <body className={inter.className}>
+        
+        <main className="relative overflow-hidden">{children}</main>
+        
+      </body>
+     
+      </AuthProvider>
+      </OCConnectWrapper>
     </html>
   );
 }
