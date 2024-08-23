@@ -39,12 +39,12 @@ const Navbar = () => {
       </ul>
 
       <div className=" lg:flex hidden gap-4">
-        <Button
+        {/* <Button
           type="button"
           title="Login"
            variant="bg-[#111] px-[40px]"
           icon="/user.svg"
-        />
+        /> */}
           {/* <Button
           type="button"
           title="Login"
