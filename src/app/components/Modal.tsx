@@ -39,9 +39,10 @@ type ModalProps = {
  
   
 };
-const { ocAuth } = useOCAuth();
+
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onOption1, onOption2   }) => {
+  const { ocAuth } = useOCAuth();
   if (!isOpen) return null;
 
  

@@ -13,8 +13,8 @@ const Footer = () => {
         Credentials<span className="bg-gradient-to-r from-cyan-500 to-blue-500 py-1 px-2 rounded-lg text-[#fff]" > DAO</span>
       </Link>
           <div className='flex flex-wrap gap-10 sm:justify-between md:flex-1'>
-            {FOOTER_LINKS.map((columns) => (
-              <FooterColumn title={columns.title}>
+            {FOOTER_LINKS.map((columns,index) => (
+              <FooterColumn title={columns.title} key={index}>
                 <ul className="text-[14px] font-[400] flex flex-col gap-4 text-[#494848] ">
                   {columns.links.map((link, index) => (
                     <Link href="/" key={index}>
