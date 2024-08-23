@@ -39,11 +39,12 @@ type ModalProps = {
  
   
 };
+const { ocAuth } = useOCAuth();
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onOption1, onOption2   }) => {
   if (!isOpen) return null;
 
-  const { ocAuth } = useOCAuth();
+ 
 
   const handleLogin = async () => {
     try {
