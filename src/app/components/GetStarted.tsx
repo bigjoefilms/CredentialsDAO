@@ -1,6 +1,7 @@
 import React from 'react'
 import Button from './Button'
 import Image from 'next/image'
+import Link from 'next/link'
 
 const GetApp = () => {
   return (
@@ -13,6 +14,7 @@ const GetApp = () => {
 
 </p>
           <div className="flex w-full flex-col gap-3 whitespace-nowrap xl:flex-row">
+          <Link href="/">
             <Button 
               type="button"
               title="Learn more"
@@ -20,6 +22,9 @@ const GetApp = () => {
               variant="bg-[#363636]"
               
             />
+            </Link>
+            <Link href="/">
+           
             <Button 
               type="button"
               title="Get Started"
@@ -27,6 +32,7 @@ const GetApp = () => {
               variant="bg-gradient-to-r from-cyan-500 to-blue-500"
               
             />
+            </Link>
           </div>
         </div>
 

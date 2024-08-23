@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import OCConnectWrapper from "./components/OCConnectWrapper";
+import { AuthProvider } from "./context/AuthContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,8 +26,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-
       <OCConnectWrapper opts={opts} sandboxMode={true}>
+       <AuthProvider>
+
+      
+
+      
 
       
       <body className={inter.className}>
@@ -34,6 +39,8 @@ export default function RootLayout({
         <main className="relative overflow-hidden">{children}</main>
         
       </body>
+     
+      </AuthProvider>
       </OCConnectWrapper>
     </html>
   );

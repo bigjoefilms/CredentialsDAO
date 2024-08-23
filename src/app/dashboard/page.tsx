@@ -1,10 +1,12 @@
 import Link from 'next/link';
 import DashboardLayout from '../components/DashboardLayout';
+import ProtectedRoute from '../components/ProtectedRoute';
 
 
 
 const Dashboard: React.FC = () => {
   return (
+    <ProtectedRoute>
     <DashboardLayout>
        
       <div className="space-y-8">
@@ -30,6 +32,7 @@ const Dashboard: React.FC = () => {
        
       </div>
     </DashboardLayout>
+    </ProtectedRoute>
   );
 };
 
