@@ -11,7 +11,7 @@ const inter = Inter({ subsets: ["latin"] });
 const opts = {
   redirectUri: 'https://credentials-dao.vercel.app/redirect', // Adjust this URL
 };
-
+// https://credentials-dao.vercel.app
 
 
 export const metadata: Metadata = {

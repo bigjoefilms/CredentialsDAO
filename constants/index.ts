@@ -14,11 +14,11 @@ export const FOOTER_LINKS = [
         'Privacy Policy',
         'Contact Us',
       ],
-    },
-    {
-      title: 'Our Community',
-      links: ['Climbing xixixi', 'Hiking hilink', 'Hilink kinthill'],
-    },
+    }
+    // {
+    //   title: 'Our Community',
+    //   links: ['Climbing xixixi', 'Hiking hilink', 'Hilink kinthill'],
+    // },
    
   ];
   
