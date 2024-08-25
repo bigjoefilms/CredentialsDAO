@@ -288,22 +288,29 @@ const Drive: React.FC = () => {
       )}
 
 {isPreviewModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-800 bg-opacity-75 bg-gradient-to-r from-cyan-500 to-blue-500">
-          <div className="bg-white rounded-lg shadow-2xl p-8 max-w-[700px] w-full relative max-h-[100%] lg:max-h-[700px] h-[100%] flex flex-col justify-center  bg-[#fff">
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-[#fff] ">
+          <div className="bg-white rounded-lg shadow-2xl p-8 max-w-[900px] w-full relative max-h-[100%] lg:max-h-[700px] h-[100%] flex flex-col justify-center  bg-[#fff">
             <h2 className=" text-[16px] lg:text-2xl font-extrabold mb-4 text-center underline">Certificate Preview</h2>
             {/* Certificate Template */}
             <div className="border-4 border-dashed p-6 rounded-lg mb-4 relative" ref={certificateRef}>
               {/* Fancy border design */}
               <div className="absolute top-0 left-0 right-0 bottom-0 border-8 border-double border-gray-200 rounded-lg"></div>
               {/* Award Stamp Watermark */}
-              <div className="absolute lg:bottom-10 bottom-4 left-[15px] ">
+              <div className="absolute lg:bottom-10 bottom-4 left-[15px] lg:left-[28px]">
+              <div className="flex lg:hidden">
                 <Image src='/check.png' alt="map" width={48} height={48} />
-                {/* <Image src='/check.png' alt="map" width={78} height={78} /> */}
+                </div>
+                <div className="lg:flex hidden">
+               
+                <Image src='/check.png' alt="map" width={78} height={78} />
+
+
+                </div>
               </div>
               <div className="relative z-10">
                 <h3 className=" text-[20px] text-3xl font-serif font-bold text-center mb-2">{formValues.certificateTitle}</h3>
                 <p className="text-center text-xl text-gray-700 mb-4 mt-6 flex-col flex ">
-                  Awarded to <span className="font-bold text-[29px] lg:text-[50px] my-[10px] lg:my-[20px] bg-[#e93737] text-[#fff] py-[10px] px-[5px] rounded-[8px]">{formValues.recipientName}</span>
+                  Awarded to <span className="font-bold text-[29px] lg:text-[50px] my-[10px] lg:my-[20px] bg-[#e93737] text-[#fff] py-[15px] px-[5px] rounded-[8px]">{formValues.recipientName}</span>
                 </p>
                 <p className="text-center text-gray-600 mb-2">Issuer: {formValues.issuerName}</p>
                 <p className="text-center text-gray-600 mb-2">Date of Issuance: {formValues.dateOfIssuance}</p>
@@ -318,7 +325,7 @@ const Drive: React.FC = () => {
               </div>
             </div>
             {/* Close, Save, and Blockchain Buttons */}
-            <div className="flex justify-end  flex-col gap-3">
+            <div className="flex justify-end  lg:flex-row flex-col gap-3 ">
               <button
                 className="px-2 py-1 bg-gray-400 text-white rounded hover:bg-gray-500 transition duration-200 text-[14px]" 
                 onClick={togglePreviewModal}
