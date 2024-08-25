@@ -16,7 +16,9 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
   // Show a loading spinner or placeholder while checking auth status
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="spinner-overlay">
+    <div className="spinner"></div>
+  </div>;
   }
 
   // Only render children if authenticated
@@ -27,5 +29,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   // Return null or a placeholder while redirecting (if not authenticated)
   return null;
 };
+
+
 
 export default ProtectedRoute;

@@ -3,6 +3,9 @@ import React from "react";
 import DashboardLayout from '../../components/DashboardLayout';
 import { useOCAuth} from '@opencampus/ocid-connect-js'
 import { useState } from 'react';
+import Image from "next/image";
+import { useRef } from 'react';
+import { toPng } from 'html-to-image';
 
 
 
@@ -16,6 +19,29 @@ const Drive: React.FC = () => {
     const togglePreviewModal = () => setIsPreviewModalOpen(!isPreviewModalOpen);
     const [errors, setErrors] = useState<FormErrors>({});
     console.log("ocAuth",ocAuth)
+    const certificateRef = useRef(null);
+
+  const handleDownloadImage = () => {
+    if (certificateRef.current === null) {
+      return;
+    }
+
+    toPng(certificateRef.current, { cacheBust: true })
+      .then((dataUrl) => {
+        const link = document.createElement('a');
+        link.download = `${formValues.certificateTitle}.png`;
+        link.href = dataUrl;
+        link.click();
+      })
+      .catch((err) => {
+        console.error('Oops, something went wrong!', err);
+      });
+  };
+
+  const handlePushToBlockchain = () => {
+    // Add logic to push the certificate data to the blockchain
+    alert('Pushed to blockchain successfully!');
+  };
   
   const authInfo = ocAuth?.authInfoManager?._idInfo;
   
@@ -262,44 +288,60 @@ const Drive: React.FC = () => {
       )}
 
 {isPreviewModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-lg p-8 max-w-lg w-full">
-            <h2 className="text-xl font-bold mb-4">Certificate Preview</h2>
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-800 bg-opacity-75 bg-gradient-to-r from-cyan-500 to-blue-500">
+          <div className="bg-white rounded-lg shadow-2xl p-8 max-w-[700px] w-full relative max-h-[100%] lg:max-h-[700px] h-[100%] flex flex-col justify-center  bg-[#fff">
+            <h2 className=" text-[16px] lg:text-2xl font-extrabold mb-4 text-center underline">Certificate Preview</h2>
             {/* Certificate Template */}
-            <div className="border p-6 rounded-lg mb-4">
-              <h3 className="text-2xl font-bold text-center mb-2">{formValues.certificateTitle}</h3>
-              <p className="text-center mb-4">Awarded to {formValues.recipientName}</p>
-              <p className="text-center mb-2">Issuer: {formValues.issuerName}</p>
-              <p className="text-center mb-2">Date of Issuance: {formValues.dateOfIssuance}</p>
-              {formValues.expirationDate && (
-                <p className="text-center mb-2">Expiration Date: {formValues.expirationDate}</p>
-              )}
-              <p className="text-center mb-4">{formValues.description}</p>
-              <p className="text-center font-bold">{formValues.courseOrAchievementTitle}</p>
-              {formValues.signature && <p className="text-center mt-4">[Digital Signature]</p>}
+            <div className="border-4 border-dashed p-6 rounded-lg mb-4 relative" ref={certificateRef}>
+              {/* Fancy border design */}
+              <div className="absolute top-0 left-0 right-0 bottom-0 border-8 border-double border-gray-200 rounded-lg"></div>
+              {/* Award Stamp Watermark */}
+              <div className="absolute lg:bottom-10 bottom-4 left-[15px] ">
+                <Image src='/check.png' alt="map" width={48} height={48} />
+                {/* <Image src='/check.png' alt="map" width={78} height={78} /> */}
+              </div>
+              <div className="relative z-10">
+                <h3 className=" text-[20px] text-3xl font-serif font-bold text-center mb-2">{formValues.certificateTitle}</h3>
+                <p className="text-center text-xl text-gray-700 mb-4 mt-6 flex-col flex ">
+                  Awarded to <span className="font-bold text-[29px] lg:text-[50px] my-[10px] lg:my-[20px] bg-[#e93737] text-[#fff] py-[10px] px-[5px] rounded-[8px]">{formValues.recipientName}</span>
+                </p>
+                <p className="text-center text-gray-600 mb-2">Issuer: {formValues.issuerName}</p>
+                <p className="text-center text-gray-600 mb-2">Date of Issuance: {formValues.dateOfIssuance}</p>
+                {formValues.expirationDate && (
+                  <p className="text-center text-gray-600 mb-2">Expiration Date: {formValues.expirationDate}</p>
+                )}
+                <p className="text-center text-gray-600 mb-4">{formValues.description}</p>
+                <p className="text-center text-lg font-semibold text-gray-800">{formValues.courseOrAchievementTitle}</p>
+                {formValues.signature && (
+                  <p className="text-center mt-4 text-gray-600 font-mono">[Digital Signature]</p>
+                )}
+              </div>
             </div>
-            {/* Close or Confirm Buttons */}
-            <div className="flex justify-end">
+            {/* Close, Save, and Blockchain Buttons */}
+            <div className="flex justify-end  flex-col gap-3">
               <button
-                className="mr-4 px-4 py-2 bg-gray-400 text-white rounded"
+                className="px-2 py-1 bg-gray-400 text-white rounded hover:bg-gray-500 transition duration-200 text-[14px]" 
                 onClick={togglePreviewModal}
               >
                 Close
               </button>
               <button
-                className="px-4 py-2 bg-blue-600 text-white rounded"
-                onClick={() => {
-                  // Handle actual certificate issuance here
-                  togglePreviewModal();
-                  alert('Certificate issued successfully!');
-                }}
+                className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition duration-200"
+                onClick={handleDownloadImage}
               >
-                Issue Certificate
+                Save as Image
+              </button>
+              <button
+                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-200"
+                onClick={handlePushToBlockchain}
+              >
+                Push to Blockchain
               </button>
             </div>
           </div>
         </div>
       )}
+
 
       </div>
       </div>

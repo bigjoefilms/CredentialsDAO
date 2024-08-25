@@ -76,23 +76,29 @@ const shortenAddress = (address:string) => {
         onClick={toggleSidebar}
       />
           </button>
-          <Link href="/dashboard" className="flex items-center text-[25px] tracking-tighter gap-1">
+          <Link href="/" className="flex items-center text-[25px] tracking-tighter gap-1">
      
 
      Credentials<span className="bg-gradient-to-r from-cyan-500 to-blue-500 py-1 px-2 rounded-lg text-[#fff]" > DAO</span>
    </Link>
       <nav className=''>
         <ul className=' flex flex-col '>
-          <li className="mb-4">
-            <Link href="/dashboard/drive" className="block p-2 mt-[20px] bg-[#111] hover:bg-[#fff] hover:text-[#111] rounded transition-colors duration-200 text-[#fff]">
-              Drive
+        <li className="mb-4">
+            <Link href="/dashboard" className="block p-2 rounded transition-colors duration-200 text-gray-800 bg-gray-300 ">
+              Dashboard
             </Link>
           </li>
           <li className="mb-4">
+            <Link href="/dashboard/drive" className="block p-2 mt-[20px] bg-[#111] hover:bg-[#fff] hover:text-[#111] rounded transition-colors duration-200 text-[#fff]">
+              Create New
+            </Link>
+          </li>
+           <li className="mb-4">
             <Link href="/dashboard/folders" className="block p-2 rounded transition-colors duration-200 text-gray-800 bg-gray-300 ">
               Profile
             </Link>
           </li>
+        
           
         </ul>
       </nav>
