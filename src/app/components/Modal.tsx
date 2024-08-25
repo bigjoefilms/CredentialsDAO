@@ -1,35 +1,6 @@
 "use client"
-import React,{useEffect} from 'react';
-import { useRouter } from 'next/navigation';
-import LoginButton from './LoginButton';
 import { useOCAuth  } from '@opencampus/ocid-connect-js';
 
-interface AuthStateDisplayProps {
-  authState: any;
-  ocAuth: any;
-}
-
-const AuthStateDisplay: React.FC<AuthStateDisplayProps> = ({ authState, ocAuth }) => {
-    useEffect(() => {
-      console.log(authState);
-    }, [authState]); // Logs whenever authState changes
-  
-    if (authState.error) {
-      return <div>Error: {authState.error.message}</div>;
-    }
-  
-    if (authState.isLoading) {
-      return <div className="spinner-overlay">
-      <div className="spinner"></div>
-    </div>
-    }
-  
-    return authState.isAuthenticated ? (
-        <p>You are logged in! {JSON.stringify(ocAuth.getAuthInfo())}</p>
-    ) : (
-      <LoginButton />
-    );
-  };
 
 type ModalProps = {
   isOpen: boolean;
@@ -68,7 +39,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onOption1, onOption2   }
             Issue Certificate
           </button>
           <button
-            className="flex-1 bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600 transition"
+            className="flex-1 bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600 transition cursor-not-allowed"
             onClick={onOption2}
           >
             Credential wallet

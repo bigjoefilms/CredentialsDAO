@@ -14,15 +14,18 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     }
   }, [isAuthenticated, loading, router]);
 
+  // Show a loading spinner or placeholder while checking auth status
   if (loading) {
-    
-    router.push('/');
-    
-    
-      // Show a loading spinner or placeholder while checking auth status
+    return <div>Loading...</div>;
   }
 
-  return <>{children}</>;
+  // Only render children if authenticated
+  if (isAuthenticated) {
+    return <>{children}</>;
+  }
+
+  // Return null or a placeholder while redirecting (if not authenticated)
+  return null;
 };
 
 export default ProtectedRoute;

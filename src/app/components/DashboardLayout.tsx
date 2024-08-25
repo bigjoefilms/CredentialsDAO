@@ -3,6 +3,9 @@ import { ReactNode ,useState} from 'react';
 import Sidebar from './Sidebar';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useOCAuth } from "@opencampus/ocid-connect-js";
+import ProtectedRoute from './ProtectedRoute';
+
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -10,11 +13,30 @@ interface DashboardLayoutProps {
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { authState, ocAuth } = useOCAuth();
+  console.log("hi",ocAuth)
+
+// Access authInfo from authInfoManager._idInfo if available
+const authInfo = ocAuth?.authInfoManager?._idInfo;
+
+// Destructure authInfo properties if authInfo exists
+const { edu_username, eth_address } = authInfo || {};
+
+// Log the extracted auth information
+console.log('Auth Info:', { edu_username, eth_address });
+
+const shortenAddress = (address:string) => {
+  if (!address) return '';
+  return `${address.slice(0, 10)}...${address.slice(-4)}`;
+};
+
+
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
   return (
+    <ProtectedRoute>
     <div className=" bg-gray-100 lg:p-[0px] p-[20px] lg:flex">
          <Image
         src="/menu.svg"
@@ -29,7 +51,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
 
       </div>
     
-      <main className=" p-8 bg-gray-100 min-h-screen">
+      <main className=" p-8 bg-gray-100 h-[100vh] w-[100%]">
         {children}
       </main>
 
@@ -54,7 +76,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
         onClick={toggleSidebar}
       />
           </button>
-          <Link href="/" className="flex items-center text-[25px] tracking-tighter gap-1">
+          <Link href="/dashboard" className="flex items-center text-[25px] tracking-tighter gap-1">
      
 
      Credentials<span className="bg-gradient-to-r from-cyan-500 to-blue-500 py-1 px-2 rounded-lg text-[#fff]" > DAO</span>
@@ -67,31 +89,20 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
             </Link>
           </li>
           <li className="mb-4">
-            <Link href="/dashboard/folders" className="block p-2 hover:bg-gray-300 rounded transition-colors duration-200 text-gray-800">
-              Folders
+            <Link href="/dashboard/folders" className="block p-2 rounded transition-colors duration-200 text-gray-800 bg-gray-300 ">
+              Profile
             </Link>
           </li>
           
         </ul>
       </nav>
       
-            <Link href="/dashboard/connect-wallet" className=" p-2 bg-gradient-to-r text-[#fff] from-cyan-500 to-blue-500 hover:bg-gray-300 rounded transition-colors duration-200 flex justify-center items-center absolute w-[80%] bottom-[50px]">
-              Connect Wallet
-            </Link>
-         
-
-            <div className=" mt-[25px]">
-              {/* <Button
-                type="button"
-                title="Login"
-                variant="bg-[#111]"
-                icon="/user.svg"
-              /> */}
-            </div>
+    
         </div>
         <div className="flex-1" onClick={toggleSidebar} />
       </div>
     </div>
+    </ProtectedRoute>
   );
 };
 
