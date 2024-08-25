@@ -81,9 +81,9 @@ const shortenAddress = (address:string) => {
 
      Credentials<span className="bg-gradient-to-r from-cyan-500 to-blue-500 py-1 px-2 rounded-lg text-[#fff]" > DAO</span>
    </Link>
-      <nav className=''>
+      <nav className='mt-[20px]'>
         <ul className=' flex flex-col '>
-        <li className="mb-4">
+        <li className="mb-">
             <Link href="/dashboard" className="block p-2 rounded transition-colors duration-200 text-gray-800 bg-gray-300 ">
               Dashboard
             </Link>

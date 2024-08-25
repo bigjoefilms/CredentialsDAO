@@ -52,9 +52,14 @@ const shortenAddress = (address:string) => {
               href="/dashboard/drive"
               className=""
             >
-            <button className="px-4 py-2 bg-blue-500 text-white rounded">Issue New Certificate</button>
+            <button className="px-4 py-2 max-w-[200px] w-[100%] bg-blue-500 text-white rounded">Issue New Certificate</button>
             </Link>
-            <button className="px-4 py-2 bg-green-500 text-white rounded ">View Wallet</button>
+            <Link
+              href="/dashboard/drive"
+              className=""
+            >
+            <button className="px-4 py-2 max-w-[200px] w-[100%] bg-green-500 text-white rounded ">View Wallet</button>
+            </Link>
           </div>
         </section>
        
