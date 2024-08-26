@@ -3,6 +3,7 @@ import Link from 'next/link';
 import DashboardLayout from '../components/DashboardLayout';
 import ProtectedRoute from '../components/ProtectedRoute';
 import { useOCAuth} from '@opencampus/ocid-connect-js'
+import DisplayFiles from '../components/DisplayFiles';
 
 
 const Dashboard: React.FC = () => {
@@ -62,6 +63,7 @@ const shortenAddress = (address:string) => {
             </Link>
           </div>
         </section>
+        <DisplayFiles/>
        
       </div>
     </DashboardLayout>

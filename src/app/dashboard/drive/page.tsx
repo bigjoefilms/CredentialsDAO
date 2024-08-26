@@ -6,11 +6,20 @@ import { useState } from 'react';
 import Image from "next/image";
 import { useRef } from 'react';
 import { toPng } from 'html-to-image';
+import { PinataSDK } from "pinata";
 
 
+// Initialize Pinata SDK with environment variables
+const pinata = new PinataSDK({
+  pinataJwt: process.env.NEXT_PUBLIC_PINATA_JWT!,
+  pinataGateway: "example-gateway.mypinata.cloud", // Replace with your actual gateway
+});
+  
 
 const Drive: React.FC = () => {
-  
+
+ 
+
     const [hasSigned, setHasSigned] = React.useState(false);
     const { authState, ocAuth } = useOCAuth();
     const [isFormModalOpen, setIsFormModalOpen] = useState(false);
@@ -38,9 +47,25 @@ const Drive: React.FC = () => {
       });
   };
 
-  const handlePushToBlockchain = () => {
-    // Add logic to push the certificate data to the blockchain
-    alert('Pushed to blockchain successfully!');
+  const handlePushToBlockchain = async () => {
+    if (certificateRef.current === null) {
+      return;
+    }
+
+    try {
+      const dataUrl = await toPng(certificateRef.current, { cacheBust: true });
+      const blob = await (await fetch(dataUrl)).blob();
+      const file = new File([blob], `${formValues.certificateTitle}.png`, { type: "image/png" });
+
+      // Upload file to IPFS using Pinata
+      const upload = await pinata.upload.file(file);
+      console.log("File uploaded to IPFS:", upload);
+
+      alert(`Uploaded to IPFS! CID: ${upload.IpfsHash}`);
+    } catch (err) {
+      console.error("Error uploading to IPFS:", err);
+      alert("Failed to upload to IPFS.");
+    }
   };
   
   const authInfo = ocAuth?.authInfoManager?._idInfo;

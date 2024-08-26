@@ -16,8 +16,12 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
   // Show a loading spinner or placeholder while checking auth status
   if (loading) {
-    return <div className="spinner-overlay">
-    <div className="spinner"></div>
+    return
+    <div>
+      <p>Go back and login</p>
+     <div className="spinner-overlay">
+    <div className="spinner"> </div>
+  </div>
   </div>;
   }
 

@@ -12,14 +12,18 @@
     "@web3auth/base": "^8.12.4",
     "@web3auth/ethereum-provider": "^8.12.4",
     "@web3auth/modal": "^8.12.4",
+    "@web3auth/openlogin-adapter": "^8.12.4",
     "@web3modal/react": "^2.7.1",
+    "axios": "^1.7.5",
     "html-to-image": "^1.11.11",
     "next": "14.2.5",
     "next-auth": "^4.24.7",
+    "pinata": "^0.4.0",
     "react": "^18",
     "react-dom": "^18",
     "siwe": "^2.3.2",
-    "wagmi": "^2.12.7"
+    "wagmi": "^2.12.7",
+    "web3": "^4.12.1"
   },
   "devDependencies": {
     "@opencampus/ocid-connect-js": "^1.0.1",
