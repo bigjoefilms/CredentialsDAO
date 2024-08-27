@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useOCAuth } from "@opencampus/ocid-connect-js";
 import axios from "axios";
+import Image from "next/image";
 
 interface FileData {
   name: string;
@@ -45,7 +46,7 @@ const DisplayFiles: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {files.map((file) => (
             <div key={file.hash} className="p-2 border rounded">
-              <img
+              <Image
                 src={`https://example-gateway.mypinata.cloud/ipfs/${file.hash}`}
                 alt={file.name}
                 className="w-full h-auto"

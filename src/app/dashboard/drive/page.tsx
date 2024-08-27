@@ -10,7 +10,6 @@ import { EthereumPrivateKeyProvider } from "@web3auth/ethereum-provider";
 import { Web3Auth } from "@web3auth/modal";
 import { ethers } from "ethers";
 
-import RPC from "./ethersRPC";
 // import RPC from "./viemRPC";
 // import RPC from "./web3RPC";
 
