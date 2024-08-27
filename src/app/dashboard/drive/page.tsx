@@ -1,15 +1,14 @@
-"use client"
-import React from "react";
+"use client";
+import React, { useState, useEffect, useRef } from "react";
 import DashboardLayout from '../../components/DashboardLayout';
-import { useOCAuth} from '@opencampus/ocid-connect-js'
-import { useState, useEffect} from 'react';
+import { useOCAuth } from '@opencampus/ocid-connect-js';
 import Image from "next/image";
-import { useRef } from 'react';
 import { toPng } from 'html-to-image';
 import { PinataSDK } from "pinata";
 import { CHAIN_NAMESPACES, IProvider, WEB3AUTH_NETWORK } from "@web3auth/base";
 import { EthereumPrivateKeyProvider } from "@web3auth/ethereum-provider";
 import { Web3Auth } from "@web3auth/modal";
+import { ethers } from "ethers";
 
 import RPC from "./ethersRPC";
 // import RPC from "./viemRPC";
@@ -21,8 +20,6 @@ const chainConfig = {
   chainNamespace: CHAIN_NAMESPACES.EIP155,
   chainId: "0xaa36a7",
   rpcTarget: "https://rpc.ankr.com/eth_sepolia",
-  // Avoid using public rpcTarget in production.
-  // Use services like Infura, Quicknode etc
   displayName: "Ethereum Sepolia Testnet",
   blockExplorerUrl: "https://sepolia.etherscan.io",
   ticker: "ETH",
@@ -40,29 +37,32 @@ const web3auth = new Web3Auth({
   privateKeyProvider,
 });
 
-
-// Initialize Pinata SDK with environment variables
 const pinata = new PinataSDK({
   pinataJwt: process.env.NEXT_PUBLIC_PINATA_JWT!,
-  pinataGateway: "example-gateway.mypinata.cloud", // Replace with your actual gateway
+  pinataGateway: "example-gateway.mypinata.cloud",
 });
-  
 
 const Drive: React.FC = () => {
-
- 
-
-    const [hasSigned, setHasSigned] = React.useState(false);
-    const { authState, ocAuth } = useOCAuth();
-    const [isFormModalOpen, setIsFormModalOpen] = useState(false);
-    const [isIssueModalOpen, setIsIssueModalOpen] = useState(false);
-    const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
-    const togglePreviewModal = () => setIsPreviewModalOpen(!isPreviewModalOpen);
-    const [errors, setErrors] = useState<FormErrors>({});
-    console.log("ocAuth",ocAuth)
-    const certificateRef = useRef(null);
-    const [provider, setProvider] = useState<IProvider | null>(null);
-    const [loggedIn, setLoggedIn] = useState(false);
+  const [hasSigned, setHasSigned] = useState(false);
+  const { authState, ocAuth } = useOCAuth();
+  const [isFormModalOpen, setIsFormModalOpen] = useState(false);
+  const [isIssueModalOpen, setIsIssueModalOpen] = useState(false);
+  const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
+  const togglePreviewModal = () => setIsPreviewModalOpen(!isPreviewModalOpen);
+  const [errors, setErrors] = useState<FormErrors>({});
+  const certificateRef = useRef(null);
+  const [provider, setProvider] = useState<IProvider | null>(null);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [formValues, setFormValues] = useState({
+    certificateTitle: '',
+    issuerName: 'Your Organization Name',
+    recipientName: '',
+    dateOfIssuance: '',
+    expirationDate: '',
+    description: '',
+    courseOrAchievementTitle: '',
+    signature: false,
+  });
 
   const handleDownloadImage = () => {
     if (certificateRef.current === null) {
@@ -85,49 +85,47 @@ const Drive: React.FC = () => {
     if (certificateRef.current === null) {
       return;
     }
-
+  
     try {
       const dataUrl = await toPng(certificateRef.current, { cacheBust: true });
       const blob = await (await fetch(dataUrl)).blob();
       const file = new File([blob], `${formValues.certificateTitle}.png`, { type: "image/png" });
-
-      // Upload file to IPFS using Pinata
-      const upload = await pinata.upload.file(file);
-      console.log("File uploaded to IPFS:", upload);
-
+  
+      // Upload to IPFS
+      // Upload the image to IPFS
+    const upload = await pinata.upload.file(file);
+    const ipfsHash = upload.IpfsHash;
+    console.log("File uploaded to IPFS:", upload);
+  
       alert(`Uploaded to IPFS! CID: ${upload.IpfsHash}`);
+  
+      // Prepare for blockchain transaction
+      const provider = new ethers.JsonRpcProvider("https://rpc.ankr.com/eth_sepolia");
+      const signer = provider.getSigner(); // Ensure the signer is correctly set up with MetaMask or similar
+  
+      // const message = `Upload confirmation for CID: ${upload.IpfsHash}`;
+      // const signature = await signer.signMessage(message);
+      
+      // console.log("Signed message:", signature); 
+      // alert(`Message signed: ${signature}`);
+      
+      // Here you could proceed with further blockchain interactions
     } catch (err) {
-      console.error("Error uploading to IPFS:", err);
-      alert("Failed to upload to IPFS.");
+      console.error("Error uploading to IPFS or signing message:", err);
+      alert("Failed to upload to IPFS or sign message.");
     }
   };
-  
-  const authInfo = ocAuth?.authInfoManager?._idInfo;
-  
-  const { edu_username, eth_address } = authInfo || {};
-  
-  console.log('Auth Info:', { edu_username, eth_address });
-  
-  const shortenAddress = (address:string) => {
-    if (!address) return '';
-    return `${address.slice(0, 10)}...${address.slice(-4)}`;
-  };
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Function to toggle modal visibility
-  const toggleModal = () => {
-    setIsModalOpen(!isModalOpen);
+  const authInfo = ocAuth?.authInfoManager?._idInfo;
+  const { edu_username, eth_address } = authInfo || {};
+
+  const shortenAddress = (address: string) => {
+    if (!address) return '';
+    return `${address.slice(0, 6)}...${address.slice(-4)}`;
   };
-  const [formValues, setFormValues] = useState({
-    certificateTitle: '',
-    issuerName: 'Your Organization Name', // Pre-filled field
-    recipientName: '',
-    dateOfIssuance: '',
-    expirationDate: '',
-    description: '',
-    courseOrAchievementTitle: '',
-    signature: false, // Boolean to track digital signature option
-  });
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const toggleModal = () => setIsModalOpen(!isModalOpen);
 
   const validateForm = () => {
     const newErrors: { [key: string]: string } = {}; // Explicitly defining the type
@@ -150,19 +148,15 @@ const Drive: React.FC = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  // Handle form submission
-  const handleFormSubmit = (e:any) => {
+  const handleFormSubmit = (e: any) => {
     e.preventDefault();
     if (validateForm()) {
-      setIsFormModalOpen(false); // Close form modal
-      setIsPreviewModalOpen(true); // Open preview modal
+      setIsFormModalOpen(false);
+      setIsPreviewModalOpen(true);
     }
   };
 
-
-
-  // Handle input changes
-  const handleInputChange = (e:any) => {
+const handleInputChange = (e:any) => {
     const { name, value, type, checked } = e.target;
     setFormValues({
       ...formValues,
@@ -170,11 +164,8 @@ const Drive: React.FC = () => {
     });
   };
 
-  // Handle form submission
- 
- 
 
-  // Toggle modal visibility
+
   const toggleFormModal = () => setIsFormModalOpen(!isFormModalOpen);
   const toggleIssueModal = () => setIsIssueModalOpen(!isIssueModalOpen);
 
@@ -182,9 +173,8 @@ const Drive: React.FC = () => {
     certificateTitle?: string;
     recipientName?: string;
     dateOfIssuance?: string;
-    // Add other fields as necessary
   };
- 
+
   useEffect(() => {
     const init = async () => {
       try {
@@ -209,143 +199,45 @@ const Drive: React.FC = () => {
       setLoggedIn(true);
     }
   };
-  const getUserInfo = async () => {
-    const user = await web3auth.getUserInfo();
-    uiConsole(user);
-  };
 
-  const signMessage = async () => {
-    if (!provider) {
-      uiConsole("provider not initialized yet");
-      return;
-    }
-    const signedMessage = await RPC.signMessage(provider);
-    uiConsole(signedMessage);
-  };
-
-  const sendTransaction = async () => {
-    if (!provider) {
-      uiConsole("provider not initialized yet");
-      return;
-    }
-    uiConsole("Sending Transaction...");
-    const transactionReceipt = await RPC.sendTransaction(provider);
-    uiConsole(transactionReceipt);
-  };
-
-  function uiConsole(...args: any[]): void {
-    const el = document.querySelector("#console>p");
-    if (el) {
-      el.innerHTML = JSON.stringify(args || {}, null, 2);
-      console.log(...args);
-    }
-  }
-
-  
-  
-
-  
   const logout = async () => {
     await web3auth.logout();
     setProvider(null);
     setLoggedIn(false);
-    uiConsole("logged out");
   };
-
-  const unloggedInView = (
-    <button onClick={login} className="card">
-      Login
-    </button>
-  );
-  const getBalance = async () => {
-    if (!provider) {
-      uiConsole("provider not initialized yet");
-      return;
-    }
-    const balance = await RPC.getBalance(provider);
-    uiConsole(balance);
-  };
-  const getAccounts = async () => {
-    if (!provider) {
-      uiConsole("provider not initialized yet");
-      return;
-    }
-    const address = await RPC.getAccounts(provider);
-    uiConsole(address);
-  };
-
-  const loggedInView = (
-    <>
-      <div className="flex-container">
-        <div>
-          <button onClick={getUserInfo} className="card">
-            Get User Info
-          </button>
-        </div>
-        <div>
-          <button onClick={getAccounts} className="card">
-            Get Accounts
-          </button>
-        </div>
-        <div>
-          <button onClick={getBalance} className="card">
-            Get Balance
-          </button>
-        </div>
-        <div>
-          <button onClick={signMessage} className="card">
-            Sign Message
-          </button>
-        </div>
-        <div>
-          <button onClick={sendTransaction} className="card">
-            Send Transaction
-          </button>
-        </div>
-        <div>
-          <button onClick={logout} className="card">
-            Log Out
-          </button>
-        </div>
-      </div>
-    </>
-  );
 
   return (
     <DashboardLayout>
-       
-            {/* User Info */}
-            <div className='flex items-center justify-center h-[100vh] '>
-      <div className='flex flex-col absolute top-[20px] right-[40px] text-center '>
-        <p className="text-[20px] font-semibold">{edu_username}</p>
-        <p className="text-[#646363] text-[12px] lg:text-[14px]">{shortenAddress(eth_address)}</p>
-      </div>
-
-      {/* Centered Button */}
-      <div className="flex flex-col items-center justify-center ">
-        <div className='flex items-center justify-center  flex-col '>
-
-       
-        <h1 className="text-3xl font-bold mb-8">Drive</h1>
-        <p className='lg:max-w-[400px]  max-w-[250px] text-center'>Access your stored credentials and documents here.</p>
-
-        {/* Button to Open Modal */}
-        <button
-          className="mt-4 px-6 py-2 bg-blue-600 text-white rounded"
-          onClick={toggleModal}
-        >
-          Create New
-        </button>
-
-        <div className="grid">{loggedIn ? loggedInView : unloggedInView}</div>
-      <div id="console" style={{ whiteSpace: "pre-line" }}>
-        <p style={{ whiteSpace: "pre-line" }}></p>
-      </div>
-        
+      <div className='flex items-center justify-center h-[100vh] '>
+        <div className='flex flex-col absolute top-[20px] right-[40px] text-center '>
+          <p className="text-[20px] font-semibold">{edu_username}</p>
+          {eth_address && (
+            <p className="text-[#646363] text-[12px] lg:text-[14px]">{shortenAddress(eth_address)}</p>
+          )}
         </div>
-        
 
-        {/* Modal */}
+        <div className="flex flex-col items-center justify-center ">
+          <h1 className="text-3xl font-bold mb-8">Drive</h1>
+          <p className='lg:max-w-[400px] max-w-[250px] text-center'>Access your stored credentials and documents here.</p>
+
+          <button
+            className={`mt-4 px-6 py-2 ${loggedIn ? 'bg-blue-600' : 'bg-gray-400'} text-white rounded hover:${loggedIn ? 'bg-blue-700' : 'bg-gray-500'}`}
+            onClick={loggedIn ? toggleModal : login}
+          >
+            {loggedIn ? 'Create New' : 'Connect Wallet'}
+          </button>
+
+          <div className="grid">{loggedIn ? (
+            <button onClick={logout} className="mt-4 px-6 py-2 bg-red-600 text-white rounded">
+              Log Out
+            </button>
+          ) : null}</div>
+
+          <div id="console" style={{ whiteSpace: "pre-line" }}>
+            <p style={{ whiteSpace: "pre-line" }}></p>
+          </div>
+        </div>
+
         {isModalOpen && (
           <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
             <div className="bg-white rounded-lg shadow-lg p-8 max-w-sm w-full">
@@ -366,7 +258,6 @@ const Drive: React.FC = () => {
             </div>
           </div>
         )}
-
 {isFormModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center z-50 h-[100%]">
           <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
@@ -476,6 +367,23 @@ const Drive: React.FC = () => {
         </div>
       )}
 
+        {isIssueModalOpen && (
+          <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
+            <div className="bg-white rounded-lg shadow-lg p-8 max-w-sm w-full">
+              <h2 className="text-xl font-bold mb-4">Issue Folder</h2>
+              {/* Folder issuance form here */}
+              <form>
+                <button className="w-full px-4 py-2 bg-blue-600 text-white rounded">
+                  Issue
+                </button>
+                <button type="button" className="w-full px-4 py-2 bg-gray-200 text-black rounded mt-2" onClick={toggleIssueModal}>
+                  Cancel
+                </button>
+              </form>
+            </div>
+          </div>
+        )}
+
 {isPreviewModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-[#fff] ">
           <div className="bg-white rounded-lg shadow-2xl p-8 max-w-[900px] w-full relative max-h-[100%] lg:max-h-[700px] h-[100%] flex flex-col justify-center  bg-[#fff">
@@ -537,11 +445,7 @@ const Drive: React.FC = () => {
           </div>
         </div>
       )}
-
-
       </div>
-      </div>
-      
     </DashboardLayout>
   );
 };

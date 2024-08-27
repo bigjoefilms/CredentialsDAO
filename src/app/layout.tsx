@@ -9,7 +9,7 @@ import { AuthProvider } from "./context/AuthContext";
 const inter = Inter({ subsets: ["latin"] });
 
 const opts = {
-  redirectUri: 'http://localhost:3000/redirect', // Adjust this URL
+  redirectUri: 'https://credentials-dao.vercel.app/redirect', // Adjust this URL
 };
 // https://credentials-dao.vercel.app
 
